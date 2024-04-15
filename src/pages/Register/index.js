@@ -2,12 +2,31 @@ import * as React from 'react';
 import { Button, Card, FormControl, InputText, LayoutOne, InputPassword } from 'upkit';
 import { useForm } from 'react-hook-form';
 import { rules } from './validation';
+import { registerUser } from '../../api/auth';
+
+const statuslist = {
+  idle: 'idle',
+  process: 'process',
+  success: 'success',
+  error: 'error',
+}
+
 export default function Register(){
 
   let { register, handleSubmit, errors, setError } = useForm();
 
   const onSubmit = async formData => {
-    console.log(errors);
+    let { password, password_confirmation } = formData;
+   // (2) cek password vs password_confirmation
+   if(password !== password_confirmation) {
+      return setError('password_confirmation', {type: 'equality', message: 'Konfirmasi password harus dama dengan password'});
+   }
+    let { data } = await registerUser(formData);
+    let fields = Object.keys(data.fields);
+     // (3) untuk masing-masing field kita terapkan error dan tangkap
+     fields.forEach(field => {
+       setError(field, {type: 'server', message: data.fields[field]?.properties?.message})
+     });
 
   }
 
@@ -56,6 +75,7 @@ export default function Register(){
 					 <Button
 					   size="large" 
 					   fitContainer
+             color="blue"
 					 > Daftar</Button>
 
 

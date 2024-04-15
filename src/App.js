@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import 'upkit/dist/style.min.css';
 import Home from './pages/Home';
 import { Provider } from 'react-redux';
@@ -16,10 +16,10 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
+        <Switch>
+          <Route path="/register" component={Register} />
+          <Route path="/"  component={Home} />
+        </Switch>
       </Router>
     </Provider>
   );
