@@ -7,6 +7,8 @@ import store from './app/store';
 import React from 'react';
 import { listen } from './app/listener';
 import Register from './pages/Register';
+import RegisterSuccess from './pages/RegisterSuccess';
+import Login from './pages/Login';
 function App() {
 
   React.useEffect(() => {
@@ -17,7 +19,13 @@ function App() {
     <Provider store={store}>
       <Router>
         <Switch>
+        <Route path="/login">
+          <Login/>
+          </Route>
           <Route path="/register" component={Register} />
+          <Route path="/register/berhasil">
+            <RegisterSuccess />
+          </Route>
           <Route path="/"  component={Home} />
         </Switch>
       </Router>

@@ -3,6 +3,8 @@ import { Button, Card, FormControl, InputText, LayoutOne, InputPassword } from '
 import { useForm } from 'react-hook-form';
 import { rules } from './validation';
 import { registerUser } from '../../api/auth';
+import { useHistory, Link } from 'react-router-dom';
+import StoreLogo from '../../components/StoreLogo';
 
 const statuslist = {
   idle: 'idle',
@@ -14,6 +16,8 @@ const statuslist = {
 export default function Register(){
 
   let { register, handleSubmit, errors, setError } = useForm();
+  let [status, setStatus] = React.useState(statuslist.idle);
+  let history = useHistory();
 
   const onSubmit = async formData => {
     let { password, password_confirmation } = formData;
@@ -21,12 +25,22 @@ export default function Register(){
    if(password !== password_confirmation) {
       return setError('password_confirmation', {type: 'equality', message: 'Konfirmasi password harus dama dengan password'});
    }
+
+    setStatus(statuslist.process);
     let { data } = await registerUser(formData);
-    let fields = Object.keys(data.fields);
-     // (3) untuk masing-masing field kita terapkan error dan tangkap
-     fields.forEach(field => {
-       setError(field, {type: 'server', message: data.fields[field]?.properties?.message})
-     });
+    if(data.error){
+      let fields = Object.keys(data.fields);
+      fields.forEach(field => {
+        setError(field, {type: 'server', message: data.fields[field]?.properties?.message})
+      });
+      // (2) set status = error
+      setStatus(statuslist.error);
+      return;
+    }
+    // (3) set status = success
+    setStatus(statuslist.success);
+
+    history.push('/register/berhasil');
 
   }
 
@@ -34,6 +48,9 @@ export default function Register(){
     <LayoutOne size="small">
 
        <Card color="white">
+       <div className='text-center mb-5' >
+        <StoreLogo />
+       </div>
          <form onSubmit={handleSubmit(onSubmit)}>
 
            <FormControl errorMessage={errors.full_name?.message}>
@@ -76,11 +93,14 @@ export default function Register(){
 					   size="large" 
 					   fitContainer
              color="blue"
-					 > Daftar</Button>
+             disabled={status === statuslist.process}
+					 > {status === statuslist.process ? "Sedang Mendaftar" : "Daftar"}</Button>
 
 
          </form>
-
+         <div className="text-center mt-2">
+         Sudah punya akun? <Link to="/login"> <b> Masuk Sekarang. </b> </Link>
+         </div>
 
        </Card>
 
