@@ -10,6 +10,10 @@ import Register from './pages/Register';
 import RegisterSuccess from './pages/RegisterSuccess';
 import Login from './pages/Login';
 import { getCart } from './api/cart';
+import UserAddressAdd from './pages/UserAddressAdd';
+import UserAddress from './pages/UserAdddress';
+import Checkout from './pages/Checkout';
+import Invoice from './pages/Invoice';
 function App() {
 
   React.useEffect(() => {
@@ -26,6 +30,18 @@ function App() {
           </Route>
           <Route path="/register/berhasil" component={RegisterSuccess} />
           <Route path="/register" component={Register} />
+          <Route path="/alamat-pengiriman/tambah">
+            <UserAddressAdd/>
+          </Route>
+          <Route path="/alamat-pengiriman">
+            <UserAddress/>
+          </Route>
+          <Route path="/checkout">
+            <Checkout/>
+          </Route>
+          <Route path="/invoice/:order_id">
+            <Invoice/>
+          </Route>
           <Route path="/"  component={Home} />
         </Switch>
       </Router>

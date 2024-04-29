@@ -4,7 +4,7 @@ import menus from './menus';
 import TopBar from '../../components/TopBar';
 import { useDispatch, useSelector } from 'react-redux';
 import Cart from '../../components/Cart';
-import { addItem } from '../../features/Cart/action';
+import { addItem, removeItem } from '../../features/Cart/action';
 import { 
   fetchProducts,
    setPage,
@@ -16,11 +16,13 @@ import {
 import { config } from '../../config';
 import { BounceLoader } from 'react-spinners';
 import { tags } from './tags';
+import { useHistory } from 'react-router-dom';
 
 export default function Home(){
   let dispatch = useDispatch();
   let products = useSelector(state => state.products);
   let cart = useSelector(state => state.cart);
+  let history = useHistory();
   
 
   React.useEffect(() => {
@@ -93,7 +95,12 @@ export default function Home(){
             </div>
             </div>
             <div className='w-full md:w-1/4 h-full shadow-lg border-r border-white bg-gray-100'>
-            <Cart items={cart}/>
+            <Cart 
+            items={cart}
+            onItemInc={item => dispatch(addItem(item))}
+            onItemDec={item => dispatch(removeItem(item))}
+            onCheckout={_ => history.push("/checkout")}
+            />
             </div>
 
           </div> } 
