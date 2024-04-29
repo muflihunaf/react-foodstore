@@ -3,6 +3,8 @@ import { SideNav, LayoutSidebar, Responsive, CardProduct, Pagination, InputText,
 import menus from './menus';
 import TopBar from '../../components/TopBar';
 import { useDispatch, useSelector } from 'react-redux';
+import Cart from '../../components/Cart';
+import { addItem } from '../../features/Cart/action';
 import { 
   fetchProducts,
    setPage,
@@ -18,6 +20,7 @@ import { tags } from './tags';
 export default function Home(){
   let dispatch = useDispatch();
   let products = useSelector(state => state.products);
+  let cart = useSelector(state => state.cart);
   
 
   React.useEffect(() => {
@@ -59,7 +62,7 @@ export default function Home(){
                 title={product.name}
                 imgUrl={`${config.api_host}/upload/${product.image_url}`}
                 price={product.price}
-                onAddToCart={_ => null}
+                onAddToCart={_ => dispatch(addItem(product))}
                 color="blue"
                 />
                 </div>
@@ -90,7 +93,7 @@ export default function Home(){
             </div>
             </div>
             <div className='w-full md:w-1/4 h-full shadow-lg border-r border-white bg-gray-100'>
-            Keranjang Disini
+            <Cart items={cart}/>
             </div>
 
           </div> } 

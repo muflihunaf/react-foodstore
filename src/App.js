@@ -9,10 +9,12 @@ import { listen } from './app/listener';
 import Register from './pages/Register';
 import RegisterSuccess from './pages/RegisterSuccess';
 import Login from './pages/Login';
+import { getCart } from './api/cart';
 function App() {
 
   React.useEffect(() => {
     listen();
+    getCart();
   },[])
 
   return (
@@ -22,10 +24,8 @@ function App() {
         <Route path="/login">
           <Login/>
           </Route>
+          <Route path="/register/berhasil" component={RegisterSuccess} />
           <Route path="/register" component={Register} />
-          <Route path="/register/berhasil">
-            <RegisterSuccess />
-          </Route>
           <Route path="/"  component={Home} />
         </Switch>
       </Router>
