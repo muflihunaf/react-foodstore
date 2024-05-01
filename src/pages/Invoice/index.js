@@ -17,6 +17,7 @@ export default function Invoice(){
   let [status, setStatus] = React.useState('process');
   let { params } = useRouteMatch();
 
+
   React.useEffect(() => {
     getInvoiceByOrderId(params?.order_id)
       .then(({data}) => {

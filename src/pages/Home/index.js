@@ -32,7 +32,7 @@ export default function Home(){
   return (
     <div>
       <LayoutSidebar
-        sidebar={<SideNav color='blue'  items={menus} verticalAlign="top"  active={products.category}
+        sidebar={<SideNav   items={menus} verticalAlign="top"  active={products.category}
         onChange={category => dispatch(setCategory(category))}/>}
         content={
           <div className='md:flex md:flex-row-reverse w-full mr-5 h-full min-h-screen'>
@@ -65,7 +65,6 @@ export default function Home(){
                 imgUrl={`${config.api_host}/upload/${product.image_url}`}
                 price={product.price}
                 onAddToCart={_ => dispatch(addItem(product))}
-                color="blue"
                 />
                 </div>
               })

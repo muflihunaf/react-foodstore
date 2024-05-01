@@ -92,7 +92,6 @@ export default function Register(){
 					 <Button
 					   size="large" 
 					   fitContainer
-             color="blue"
              disabled={status === statuslist.process}
 					 > {status === statuslist.process ? "Sedang Mendaftar" : "Daftar"}</Button>
 
